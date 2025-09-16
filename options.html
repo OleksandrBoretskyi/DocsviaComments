@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <body style="font-family:system-ui;max-width:640px;margin:24px auto">
+    <h2>Settings</h2>
+    <label>Add OpenAI API Key</label><br/>
+    <input id="key" type="password" style="width:100%"/><br/><br/>
+    <label>Model</label><br/>
+    <input id="model" value="gpt-5-mini" style="width:100%"/><br/><br/>
+    <button id="save">Save</button>
+    <script>
+      (async function(){
+        const st = await browser.storage.local.get(["apiKey","model"]);
+        if (st.apiKey) document.getElementById("key").value = st.apiKey;
+        if (st.model) document.getElementById("model").value = st.model;
+        document.getElementById("save").onclick = async () => {
+          await browser.storage.local.set({
+            apiKey: document.getElementById("key").value.trim(),
+            model: document.getElementById("model").value.trim()
+          });
+          alert("Saved");
+        };
+      })();
+    </script>
+  </body>
+</html>
